@@ -279,11 +279,14 @@ namespace SteamKitServerUserTest
             }
         }
 
+        /// <summary>
+        /// Enum to denote the mode <see cref="GetUserPass(UserPassMode, bool)"/>runs in.
+        /// </summary>
         public enum UserPassMode
         {
-            Plaintext = 0,
-            SteamKey = 1,
-            EncryptedPassword = 2,
+            SteamKey = 0,//From UserKey.bin
+            EncryptedPassword = 1,//From UserPass.bin
+            Plaintext = 2,//From User.txt
             InputPassword = 3
         }
 
@@ -368,13 +371,7 @@ namespace SteamKitServerUserTest
 
             while (steamIsRunning)
             {
-                int counterup = 0;
-                while (steamClient.GetCallback() != null && counterup < 100)
-                {//Take care of huge floods of commands.  100 is just a suggestion, but you don't necessarily need a limit.
-                    callManager.RunCallbacks();
-                    counterup++;
-                }
-                callManager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
+                callManager.RunCallbacks();
             }
         }
 
