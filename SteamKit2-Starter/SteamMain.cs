@@ -368,10 +368,24 @@ namespace SteamKitServerUserTest
 
             steamClient.Connect();
 
+            const int callbacklimit = 100; //100 is just a suggestion, but you don't necessarily need a limit.
 
             while (steamIsRunning)
             {
-                callManager.RunCallbacks();
+                //This setup allows large blocks of callbacks to be run, thereafter blocking the thread until more are received.
+                //It seems redundant, but when I tried to do RunCallback() alone in this loop, it just took the CPU for itself to the point my system
+                //(which can handle quite a few nice games) took a performance hit.  That's too rediculous.  This fixes that.
+                int counterup = 0;
+                while (steamClient.GetCallback() != null && counterup < callbacklimit)
+                {
+                    callManager.RunCallbacks();
+                    counterup++;
+                }
+                if (counterup > callbacklimit)
+                {
+                    //In case you want it to do something.  Maybe make the thread wait for a bit, or not.
+                }
+                steamClient.WaitForCallback();
             }
         }
 
