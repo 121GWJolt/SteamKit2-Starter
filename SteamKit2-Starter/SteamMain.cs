@@ -57,24 +57,24 @@ namespace SteamKitServerUserTest
     {
         //MAKE SURE TO SET THE BOT OWNER ID TO YOUR OWN 64IDbelow!!  Don't know it? Look it up on http://www.steamid.co
         //
-        public static SteamID BotOwnerID/* = xxxxxxxxxxxxxxxxxx*/;
+        public  SteamID BotOwnerID/* = xxxxxxxxxxxxxxxxxx*/;
         //
         //**************************************************************************************************************
-        static string strUser, strPassword;
-        public static bool steamIsRunning;
-        static string authCode, twofactor;
-        static Random rnd = new Random();
-        public static SteamClient steamClient;
-        public static CallbackManager callManager;
-        public static SteamUser steamUser;
-        public static SteamFriends steamFriends;
-        public static bool authed = false;
-        public static JobID StandardCallBackJob = new JobID();
-        static bool decrwSentP = false;
-        static bool dlogregd = false;
-        public static string RememberKey;
-        public static bool RememberMe = false;
-        static bool ServerMode = false;
+         string strUser, strPassword;
+        public  bool steamIsRunning;
+         string authCode, twofactor;
+         Random rnd = new Random();
+        public  SteamClient steamClient;
+        public  CallbackManager callManager;
+        public  SteamUser steamUser;
+        public  SteamFriends steamFriends;
+        public  bool authed = false;
+        public  JobID StandardCallBackJob = new JobID();
+         bool decrwSentP = false;
+         bool dlogregd = false;
+        public  string RememberKey;
+        public  bool RememberMe = false;
+         bool ServerMode = false;
 
 
         /// <summary>
@@ -82,20 +82,20 @@ namespace SteamKitServerUserTest
         /// </summary>
         /// <param name="strID"></param>
         /// <returns></returns>
-        public static SteamID StmFUstr(string strID)
+        public  SteamID StmFUstr(string strID)
         {
             SteamID steamID = new SteamID();
             steamID.SetFromUInt64(Convert.ToUInt64(strID));
             return steamID;
         }
 
-        private static IDebugListener ConDeLog = new DebugLogListeners.SendToCon();
+        private  IDebugListener ConDeLog = new DebugLogListeners.SendToCon();
 
 
         /// <summary>
         /// Toggles sending DebugLog to the Console.
         /// </summary>
-        public static void ToggleDLogToCon()
+        public  void ToggleDLogToCon()
         {
             if (dlogregd == false)
             {
@@ -127,7 +127,7 @@ namespace SteamKitServerUserTest
         /// Generates/retrieves the key needed to decrypt any encrypted file Chatti uses.  This includes the password and key files.  If any of the required files are missing, Chatti will crash and credidential files must be deleted so new ones can be generated.
         /// </summary>
         /// <returns></returns>
-        static byte[] getstandardkey()
+         byte[] getstandardkey()
         {
             System.Security.Cryptography.AesCryptoServiceProvider helper = new System.Security.Cryptography.AesCryptoServiceProvider();
             helper.GenerateKey();
@@ -166,7 +166,7 @@ namespace SteamKitServerUserTest
         /// Self-explanatory.  Automatically selects the appropriate method to use.
         /// </summary>
         /// <returns></returns>
-        static string GetUserName()
+         string GetUserName()
         {
             if (File.Exists("UserName.txt"))
             {
@@ -197,7 +197,7 @@ namespace SteamKitServerUserTest
         /// <param name="modo">Specifies what method of password access/storage to use for this attempt.</param>
         /// <param name="instantencrypt">If accessing an encrypted password, if true, will automatically encrypt a password entered via a plaintext file.  Note that if the desired method does not work, more will be tried until one does.</param>
         /// <returns></returns>
-        static string GetUserPass(UserPassMode modo, bool instantEncrypt = false)
+         string GetUserPass(UserPassMode modo, bool instantEncrypt = false)
         {
             if (File.Exists("UserKey.bin") && File.Exists("sentry.bin")&&modo == UserPassMode.SteamKey)
             {
@@ -300,7 +300,7 @@ namespace SteamKitServerUserTest
         /// Actually starts the program.
         /// </summary>
         /// <param name="args"></param>
-        public static void BeginClient(string[] args)
+        public  void BeginClient(string[] args)
         {
             if (BotOwnerID == null)
             {
@@ -343,7 +343,7 @@ namespace SteamKitServerUserTest
         /// <summary>
         /// Begins the connection process.  If you need to pass console arguments here (eg. to say whether to connect as a server or as a user or both), you can use Environment.GetCommandLineArgs() to get them rather than trying to shift them through the whole code.
         /// </summary>
-        public static void RunSteam()
+        public  void RunSteam()
         {
             steamClient = new SteamClient();
 
@@ -391,7 +391,7 @@ namespace SteamKitServerUserTest
 
 
 
-    static void OnConnected(SteamKit2.SteamClient.ConnectedCallback callback)
+     void OnConnected(SteamKit2.SteamClient.ConnectedCallback callback)
         {
             if (callback.Result == EResult.NoConnection)
             {
@@ -443,9 +443,9 @@ namespace SteamKitServerUserTest
             });
         }
 
-        static bool failonce = false;
+         bool failonce = false;
 
-        static void OnLoggedOn(SteamUser.LoggedOnCallback callback)
+         void OnLoggedOn(SteamUser.LoggedOnCallback callback)
         {
             if (callback.Result == EResult.AccountLogonDenied)
             {
@@ -510,7 +510,7 @@ namespace SteamKitServerUserTest
         /// Used for writing the file for SteamGuard.
         /// </summary>
         /// <param name="callback"></param>
-        static void UpdateMachineCallback(SteamUser.UpdateMachineAuthCallback callback)
+         void UpdateMachineCallback(SteamUser.UpdateMachineAuthCallback callback)
         {
             Console.WriteLine("Updating sentry file....", Console.ForegroundColor = ConsoleColor.Green);
 
@@ -550,7 +550,7 @@ namespace SteamKitServerUserTest
             }
         }
 
-        static void OnKeyGet(SteamUser.LoginKeyCallback callback)
+         void OnKeyGet(SteamUser.LoginKeyCallback callback)
         {
             if (RememberMe == true && File.Exists("sentry.bin"))
             {
@@ -564,7 +564,7 @@ namespace SteamKitServerUserTest
         }
 
 
-        static void OnDisconnected(SteamKit2.SteamClient.DisconnectedCallback callback)
+         void OnDisconnected(SteamKit2.SteamClient.DisconnectedCallback callback)
         {
             if (callback.UserInitiated)
             {
@@ -577,7 +577,7 @@ namespace SteamKitServerUserTest
             steamClient.Connect();
         }
 
-        static void OnAccountInfo(SteamUser.AccountInfoCallback callback)
+         void OnAccountInfo(SteamUser.AccountInfoCallback callback)
         {
             steamFriends.SetPersonaState(EPersonaState.Online);
         }
@@ -586,7 +586,7 @@ namespace SteamKitServerUserTest
         /// Reacts to a friend message.  Currently will allow I, the one who created the bot, to kill it.
         /// </summary>
         /// <param name="callback"></param>
-        public static void OnChatMessage(SteamFriends.FriendMsgCallback callback)
+        public  void OnChatMessage(SteamFriends.FriendMsgCallback callback)
         {
             if (callback.Sender == BotOwnerID)
             {

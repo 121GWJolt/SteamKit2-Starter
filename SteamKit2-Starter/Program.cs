@@ -29,7 +29,8 @@ namespace SteamKitServerUserTest
         static void Main(string[] args)
         {
             Console.WriteLine("Steambot is READY TO GO!");
-            Thread SteamClient = new Thread(() => SteamKitServerUserTest.SteamConnect.BeginClient(args));
+            SteamKitServerUserTest.SteamConnect bot = new SteamConnect();
+            Thread SteamClient = new Thread(() => bot.BeginClient(args));
             SteamClient.Start();
             while (true)
             {
@@ -45,7 +46,7 @@ namespace SteamKitServerUserTest
                     string strCom =  Console.ReadLine();
 
 
-                    if (SteamConnect.steamIsRunning && SteamConnect.steamClient.IsConnected && SteamConnect.authed)//Put any commands that require the SteamClient to be connected/logged to use in these brackets.
+                    if (bot.steamIsRunning && bot.steamClient.IsConnected && bot.authed)//Put any commands that require the SteamClient to be connected/logged to use in these brackets.
                     {
 
                     }
@@ -53,12 +54,12 @@ namespace SteamKitServerUserTest
 
                     else if (strCom == ">sleep") Environment.Exit(0);
                     else if (strCom == ">debug") Console.WriteLine("I can see you!");
-                    else if (strCom == ">DebugLog") SteamKitServerUserTest.SteamConnect.ToggleDLogToCon();
+                    else if (strCom == ">DebugLog") bot.ToggleDLogToCon();
                     else if (strCom == ">ReConn")
                     {
-                        if (SteamConnect.steamIsRunning == false)
+                        if (bot.steamIsRunning == false)
                         {
-                            SteamClient = new Thread(() => SteamKitServerUserTest.SteamConnect.BeginClient(args));
+                            SteamClient = new Thread(() => bot.BeginClient(args));
                             SteamClient.Start();
                         }
                         else
