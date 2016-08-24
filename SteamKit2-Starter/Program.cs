@@ -18,7 +18,7 @@ using System.Threading;
 //121GWJOLT IS NOT LEGALLY OBLIGATED TO FIX ANY ISSUES OR REPLACE ANY LOSSES RESULTING FROM USE OF THIS CODE.
 
 
-namespace SteamKitServerUserTest
+namespace BasicSteamBot
 {   //MAKE SURE TO SET THE BOT OWNER ID TO YOUR OWN 64ID IN SteamIDList.cs.  Don't know it? Look it up on http://www.steamid.co
     class Program
     {
@@ -29,7 +29,7 @@ namespace SteamKitServerUserTest
         static void Main(string[] args)
         {
             Console.WriteLine("Steambot is READY TO GO!");
-            SteamKitServerUserTest.SteamConnect bot = new SteamConnect();
+            SteamConnect bot = new SteamConnect();
             Thread SteamClient = new Thread(() => bot.BeginClient(args));
             SteamClient.Start();
             while (true)
