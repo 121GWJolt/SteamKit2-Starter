@@ -57,17 +57,17 @@ namespace BasicSteamBot
     {
         //MAKE SURE TO SET THE BOT OWNER ID TO YOUR OWN 64IDbelow!!  Don't know it? Look it up on http://www.steamid.co
         //
-        public  SteamID BotOwnerID/* = xxxxxxxxxxxxxxxxxx*/;
+        public SteamID BotOwnerID { get; } /* = 0000000000000000 ;*/
         //
         //**************************************************************************************************************
          string strUser, strPassword;
-        public  bool steamIsRunning;
+        public  bool steamIsRunning { get; protected set; }
          string authCode, twofactor;
          Random rnd = new Random();
-        public  SteamClient steamClient;
-        public  CallbackManager callManager;
-        public  SteamUser steamUser;
-        public  SteamFriends steamFriends;
+        public  SteamClient steamClient { get; }
+        public  CallbackManager callManager { get; }
+        public SteamUser steamUser => steamClient.GetHandler<SteamUser>();
+        public SteamFriends steamFriends => steamClient.GetHandler<SteamFriends>();
         public  bool authed = false;
         public  JobID StandardCallBackJob = new JobID();
          bool decrwSentP = false;
@@ -76,20 +76,7 @@ namespace BasicSteamBot
         public  bool RememberMe = false;
          bool ServerMode = false;
 
-
-        /// <summary>
-        /// Gets the SteamID from a string.
-        /// </summary>
-        /// <param name="strID"></param>
-        /// <returns></returns>
-        public  SteamID StmFUstr(string strID)
-        {
-            SteamID steamID = new SteamID();
-            steamID.SetFromUInt64(Convert.ToUInt64(strID));
-            return steamID;
-        }
-
-        private  IDebugListener ConDeLog = new DebugLogListeners.SendToCon();
+        private IDebugListener ConDeLog { get; } = new DebugLogListeners.SendToCon();
 
 
         /// <summary>
@@ -290,6 +277,12 @@ namespace BasicSteamBot
             InputPassword = 3
         }
 
+        public SteamConnect()
+        {
+            steamClient = new SteamClient();
+            callManager = new CallbackManager(steamClient);
+        }
+
         //
         //
         //Below actually runs the program!
@@ -345,13 +338,7 @@ namespace BasicSteamBot
         /// </summary>
         public  void RunSteam()
         {
-            steamClient = new SteamClient();
 
-            callManager = new CallbackManager(steamClient);
-
-            steamUser = steamClient.GetHandler<SteamUser>();
-
-            steamFriends = steamClient.GetHandler<SteamFriends>();
 
             //Stack of callbacks.
             callManager.Subscribe<SteamClient.ConnectedCallback>(StandardCallBackJob, OnConnected);

@@ -52,7 +52,7 @@ namespace BasicSteamBot
                     }
 
 
-                    else if (strCom == ">sleep") Environment.Exit(0);
+                    else if (strCom == ">sleep") { bot.steamClient.Disconnect(); Environment.Exit(0); }
                     else if (strCom == ">debug") Console.WriteLine("I can see you!");
                     else if (strCom == ">DebugLog") bot.ToggleDLogToCon();
                     else if (strCom == ">ReConn")
@@ -66,14 +66,14 @@ namespace BasicSteamBot
                         {
                             Console.WriteLine("Already connected.");
                         }
-                    } 
+                    }
                     else if (strCom == ">help")
                     {
                         Console.WriteLine("These are the current console commands as follows:");
                         foreach (string str in helparray)
                             Console.WriteLine(str);
 
-                        
+
                     }
                 }
 
